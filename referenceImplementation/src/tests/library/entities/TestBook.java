@@ -6,7 +6,7 @@ import static org.mockito.Mockito.*;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
-
+import library.interfaces.entities.EBookState;
 import library.interfaces.entities.IBook;
 import library.interfaces.entities.ILoan;
 import library.interfaces.entities.IMember;
@@ -15,6 +15,8 @@ import library.entities.Book;
 
 public class TestBook
 {
+  ILoan mLoan = mock(ILoan.class);
+
   @Test
   public void testBook()
   {
@@ -26,7 +28,13 @@ public class TestBook
   @Test
   public void testBorrow()
   {
-    fail("Not yet implemented");
+    //setup
+    Book book = new Book("Author", "Title", "CallNumber", 7);
+    //test
+    when(mLoan.getBook()).thenReturn(book);
+    when(mLoan.isOverDue()).thenReturn(false);
+    //assert
+    assertEquals(mLoan.getBook(), book);
   }
 
 
@@ -34,15 +42,26 @@ public class TestBook
   @Test
   public void testGetLoan()
   {
-    fail("Not yet implemented");
-  }
+    //setup
+    Book book = new Book("Author", "Title", "CallNumber", 7);
+    //test
+    book.borrow(mLoan);
+    //assert
+    assertEquals(mLoan, book.getLoan());
+   }
 
 
 
   @Test
   public void testReturnBook()
   {
-    fail("Not yet implemented");
+    //setup
+    Book book = new Book("Author", "Title", "CallNumber", 7);
+    //test
+    book.borrow(mLoan);
+    book.returnBook(false);
+    //assert
+    assertEquals(book.getState(), EBookState.ON_LOAN);
   }
 
 
@@ -50,7 +69,13 @@ public class TestBook
   @Test
   public void testLose()
   {
-    fail("Not yet implemented");
+    //setup
+    Book book = new Book("Author", "Title", "CallNumber", 7);
+    //test
+    book.borrow(mLoan);
+    book.lose();
+    //assert
+    assertEquals(book.getState(), EBookState.LOST);
   }
 
 
@@ -58,7 +83,12 @@ public class TestBook
   @Test
   public void testRepair()
   {
-    fail("Not yet implemented");
+    //setup
+    Book book = new Book("Author", "Title", "CallNumber", 7);
+    //test
+
+    //assert
+    assertEquals(book.getState(), EBookState.AVAILABLE);
   }
 
 
@@ -66,7 +96,12 @@ public class TestBook
   @Test
   public void testDispose()
   {
-    fail("Not yet implemented");
+    //setup
+    Book book = new Book("Author", "Title", "CallNumber", 7);
+    //test
+    book.dispose();
+    //assert
+    assertEquals(book.getState(), EBookState.DISPOSED);
   }
 
 
@@ -74,7 +109,12 @@ public class TestBook
   @Test
   public void testGetState()
   {
-    fail("Not yet implemented");
+    //setup
+    Book book = new Book("Author", "Title", "CallNumber", 7);
+    //test
+    book.borrow(mLoan);
+    //assert
+    assertEquals(book.getState(), EBookState.ON_LOAN);
   }
 
 
@@ -82,7 +122,11 @@ public class TestBook
   @Test
   public void testGetAuthor()
   {
-    fail("Not yet implemented");
+    //setup
+    Book book = new Book("Author", "Title", "CallNumber", 7);
+    //test
+    //assert
+    assertEquals(book.getAuthor(), "Author");
   }
 
 
@@ -90,7 +134,12 @@ public class TestBook
   @Test
   public void testGetTitle()
   {
-    fail("Not yet implemented");
+    //setup
+    Book book = new Book("Author", "Title", "CallNumber", 7);
+    //test
+
+    //assert
+    assertEquals(book.getTitle(), "Title");
   }
 
 
@@ -98,7 +147,12 @@ public class TestBook
   @Test
   public void testGetCallNumber()
   {
-    fail("Not yet implemented");
+    //setup
+    Book book = new Book("Author", "Title", "CallNumber", 7);
+    //test
+
+    //assert
+    assertEquals(book.getCallNumber(), "CallNumber");
   }
 
 
@@ -106,14 +160,12 @@ public class TestBook
   @Test
   public void testGetID()
   {
-    fail("Not yet implemented");
+    //setup
+    Book book = new Book("Author", "Title", "CallNumber", 7);
+    //test
+
+    //assert
+    assertEquals(book.getID(), 7);
   }
 
-
-
-  @Test
-  public void testToString()
-  {
-    fail("Not yet implemented");
-  }
 }
