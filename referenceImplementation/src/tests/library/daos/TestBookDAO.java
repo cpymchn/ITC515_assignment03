@@ -4,11 +4,19 @@ import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
+import library.daos.BookMapDAO;
+import library.entities.Book;
+import library.interfaces.daos.IBookDAO;
+import library.interfaces.daos.IBookHelper;
+import library.interfaces.entities.IBook;
 import static org.mockito.Mockito.*;
 
 public class TestBookDAO
 {
+  private IBookHelper bookHelper;
+  private BookMapDAO bookMapDAO;
+//"Author", "Title", "CallNumber", 7
+  
   @Before
   public void setUp() throws Exception
   {
@@ -26,15 +34,13 @@ public class TestBookDAO
   @Test
   public void testBookMapDAOIBookHelper()
   {
-    fail("Not yet implemented");
-  }
-
-
-
-  @Test
-  public void testBookMapDAOIBookHelperMapOfIntegerIBook()
-  {
-    fail("Not yet implemented");
+    //setup
+    bookHelper = mock(IBookHelper.class);
+    BookMapDAO book = new BookMapDAO(bookHelper);
+    //test
+    
+    //assert
+    assertNotNull(book);
   }
 
 
@@ -42,7 +48,15 @@ public class TestBookDAO
   @Test
   public void testAddBook()
   {
-    fail("Not yet implemented");
+    //setup
+    IBook testBook = mock(IBook.class);
+    when(bookHelper.makeBook("Author", "Title", "CallNumber", 7)).thenReturn(testBook);
+    
+    IBook book = bookMapDAO.addBook("Author", "Title", "CallNumber");
+    verify(bookHelper).makeBook("Author", "Title", "CallNumber", 7);
+    
+    //assert
+    assertEquals(book,testBook);
   }
 
 
