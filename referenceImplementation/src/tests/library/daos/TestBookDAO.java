@@ -13,13 +13,23 @@ import static org.mockito.Mockito.*;
 
 public class TestBookDAO
 {
+  IBook testBook;
   private IBookHelper bookHelper;
   private BookMapDAO bookMapDAO;
-//"Author", "Title", "CallNumber", 7
+  private int id = 1;
+  private String author = "Author";
+  private String title = "Title";
+  private String callNumber = "CallNumber";
   
   @Before
   public void setUp() throws Exception
   {
+    bookHelper = mock(IBookHelper.class);
+    testBook = mock(IBook.class);
+    when(testBook.getID()).thenReturn(1);
+    when(testBook.getTitle()).thenReturn("Title");
+    when(testBook.getAuthor()).thenReturn("Author");
+    when(bookHelper.makeBook(author, title, callNumber, id)).thenReturn(testBook);
   }
 
 
@@ -35,12 +45,11 @@ public class TestBookDAO
   public void testBookMapDAOIBookHelper()
   {
     //setup
-    bookHelper = mock(IBookHelper.class);
-    BookMapDAO book = new BookMapDAO(bookHelper);
+    bookMapDAO = new BookMapDAO(bookHelper);
     //test
     
     //assert
-    assertNotNull(book);
+    assertNotNull(bookMapDAO);
   }
 
 
@@ -49,11 +58,8 @@ public class TestBookDAO
   public void testAddBook()
   {
     //setup
-    IBook testBook = mock(IBook.class);
-    when(bookHelper.makeBook("Author", "Title", "CallNumber", 7)).thenReturn(testBook);
-    
     IBook book = bookMapDAO.addBook("Author", "Title", "CallNumber");
-    verify(bookHelper).makeBook("Author", "Title", "CallNumber", 7);
+    verify(bookHelper).makeBook("Author", "Title", "CallNumber", 1);
     
     //assert
     assertEquals(book,testBook);
@@ -64,7 +70,14 @@ public class TestBookDAO
   @Test
   public void testGetBookByID()
   {
-    fail("Not yet implemented");
+    //setup
+    
+    IBook book = bookMapDAO.addBook(author, title, callNumber);
+    book = bookMapDAO.getBookByID(id);
+    
+    
+    //assert
+    assertEquals(book, testBook);
   }
 
 
