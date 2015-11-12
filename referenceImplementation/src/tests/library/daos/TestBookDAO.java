@@ -10,6 +10,7 @@ import library.interfaces.daos.IBookDAO;
 import library.interfaces.daos.IBookHelper;
 import library.interfaces.entities.IBook;
 import static org.mockito.Mockito.*;
+import java.util.List;
 
 public class TestBookDAO
 {
@@ -29,7 +30,7 @@ public class TestBookDAO
     when(testBook.getID()).thenReturn(1);
     when(testBook.getTitle()).thenReturn("Title");
     when(testBook.getAuthor()).thenReturn("Author");
-    when(bookHelper.makeBook(author, title, callNo, id)).thenReturn(testBook);
+    when(bookHelper.makeBook(author, title, callNo, 1)).thenReturn(testBook);
   }
 
 
@@ -37,6 +38,9 @@ public class TestBookDAO
   @After
   public void tearDown() throws Exception
   {
+    bookHelper = null;
+    testBook = null;
+    bookMapDAO = null;
   }
 
 
@@ -58,7 +62,7 @@ public class TestBookDAO
   public void testAddBook()
   {
     //setup
-    when(bookHelper.makeBook(author, title, callNo, id)).thenReturn(testBook);
+    when(bookHelper.makeBook(author, title, callNo, 1)).thenReturn(testBook);
     IBook book = bookMapDAO.addBook(author, title, callNo);
 
     //assert
@@ -71,7 +75,7 @@ public class TestBookDAO
   public void testGetBookByID()
   {
     //setup
-    when(bookHelper.makeBook(author, title, callNo, id)).thenReturn(testBook);
+    when(bookHelper.makeBook(author, title, callNo, 1)).thenReturn(testBook);
     when(testBook.getID()).thenReturn(id);
     IBook book = bookMapDAO.addBook(author, title, callNo);
     book = bookMapDAO.getBookByID(id);
@@ -85,7 +89,12 @@ public class TestBookDAO
   @Test
   public void testListBooks()
   {
-    fail("Not yet implemented");
+    //setup
+    bookMapDAO.addBook(author, title, callNo);
+    List<IBook> listBooks = bookMapDAO.listBooks();
+
+   //assert
+    assertTrue(listBooks.contains(testBook));
   }
 
 
@@ -93,7 +102,7 @@ public class TestBookDAO
   @Test
   public void testFindBooksByAuthor()
   {
-    fail("Not yet implemented");
+
   }
 
 
