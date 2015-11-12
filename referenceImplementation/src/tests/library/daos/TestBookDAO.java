@@ -13,13 +13,13 @@ import static org.mockito.Mockito.*;
 
 public class TestBookDAO
 {
-  IBook testBook;
+  private IBook testBook;
   private IBookHelper bookHelper;
   private BookMapDAO bookMapDAO;
   private int id = 1;
   private String author = "Author";
   private String title = "Title";
-  private String callNumber = "CallNumber";
+  private String callNo = "callNo";
   
   @Before
   public void setUp() throws Exception
@@ -29,7 +29,7 @@ public class TestBookDAO
     when(testBook.getID()).thenReturn(1);
     when(testBook.getTitle()).thenReturn("Title");
     when(testBook.getAuthor()).thenReturn("Author");
-    when(bookHelper.makeBook(author, title, callNumber, id)).thenReturn(testBook);
+    when(bookHelper.makeBook(author, title, callNo, id)).thenReturn(testBook);
   }
 
 
@@ -58,9 +58,9 @@ public class TestBookDAO
   public void testAddBook()
   {
     //setup
-    IBook book = bookMapDAO.addBook("Author", "Title", "CallNumber");
-    verify(bookHelper).makeBook("Author", "Title", "CallNumber", 1);
-    
+    when(bookHelper.makeBook(author, title, callNo, id)).thenReturn(testBook);
+    IBook book = bookMapDAO.addBook(author, title, callNo);
+
     //assert
     assertEquals(book,testBook);
   }
@@ -71,13 +71,13 @@ public class TestBookDAO
   public void testGetBookByID()
   {
     //setup
-    
-    IBook book = bookMapDAO.addBook(author, title, callNumber);
+    when(bookHelper.makeBook(author, title, callNo, id)).thenReturn(testBook);
+    when(testBook.getID()).thenReturn(id);
+    IBook book = bookMapDAO.addBook(author, title, callNo);
     book = bookMapDAO.getBookByID(id);
-    
-    
+
     //assert
-    assertEquals(book, testBook);
+    assertEquals(book,testBook);
   }
 
 
