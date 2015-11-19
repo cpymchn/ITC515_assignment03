@@ -116,7 +116,12 @@ public class TestBookDAO
   @Test
   public void testFindBooksByTitle()
   {
-    fail("Not yet implemented");
+    //setup
+    bookMapDAO.addBook(author, title, callNo);
+    List<IBook> listBooks = bookMapDAO.findBooksByTitle("Title");
+    IBook listTest = listBooks.get(0);
+    //assert
+    assertEquals("Title", listTest.getTitle());
   }
 
 
