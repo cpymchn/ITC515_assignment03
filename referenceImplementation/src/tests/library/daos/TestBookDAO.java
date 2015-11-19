@@ -31,6 +31,7 @@ public class TestBookDAO
     when(testBook.getTitle()).thenReturn("Title");
     when(testBook.getAuthor()).thenReturn("Author");
     when(bookHelper.makeBook(author, title, callNo, 1)).thenReturn(testBook);
+    bookMapDAO = new BookMapDAO(bookHelper);
   }
 
 
@@ -102,7 +103,7 @@ public class TestBookDAO
   @Test
   public void testFindBooksByAuthor()
   {
-
+    fail("Not yet implemented");
   }
 
 
